@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("../partials/head"); %>
+    <script src="/add.js"></script>
+</head>
+
+<body>
+    <%- include("../partials/header"); %>
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Add an Event</h1>
+            
+        </div>
+    </div>
+    <div class="container">
+        <form>
+            <div class="form-group">
+                <label class="form-label">Type</label>
+                <input placeholder="Type" id="type" type="text" class="form-control">
+                <small class="text-muted form-text">Is the apartment a flat, a house etc.?</small>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Address</label>
+                <input placeholder="Address" id="address" type="text" class="form-control">
+                <small class="text-muted form-text">The address of the apartment.</small>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Area (m²)</label>
+                <input placeholder="Area" id="area" type="text" class="form-control">
+                <small class="text-muted form-text">Area of the apartment.</small>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Room Count</label>
+                <input placeholder="Room Count" id="room_count" type="text" class="form-control">
+                <small class="text-muted form-text">Room Count of the apartment</small>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Rent</label>
+                <input placeholder="Rent" id="rent" type="text" class="form-control">
+                <small class="text-muted form-text">Rent of the apartment.</small>
+            </div>
+
+            <button type="button" id="btn-api" class="btn btn-primary">Make API call.</button>
+        </form>
+        <p id="response"></p>
+    </div>
+    <%- include("../partials/footer"); %>
+</body>
+
+</html>

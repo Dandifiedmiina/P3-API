@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("../partials/head"); %>
+    <script src="js/api_get.js"></script>
+</head>
+
+<body>
+    <%- include("../partials/header"); %>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1>Get an Apartment</h1>
+            <p>This page can be used to find information stored in the database about an apartment by address.</p>
+        </div>
+    </div>
+    <div class="container">
+        <form>
+            <div class="form-group">
+                <label class="form-label">Address</label>
+                <input placeholder="Address" id="address" type="text" class="form-control">
+                <small class="text-muted form-text">The address of the apartment.</small>
+            </div>
+            <button type="button" id="btn-api" class="btn btn-primary">Make API call</button>
+        </form>
+    </div>
+    <%- include("../partials/footer"); %>
+</body>
+
+</html>
