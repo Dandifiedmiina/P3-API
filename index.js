@@ -62,7 +62,7 @@ app.get("/", (req, res) => {
 
 app.get("/api/getall", (req, res) => {
  
-  Airbnb.find({}, function (err, results) {
+  Airbnb.find({}, null, { limit: 10 }, function (err, results) {
     res.status(200).json(results);
   });
 });
@@ -96,19 +96,5 @@ app.get("/api/:name", (req, res) => {
     })
   });
 
-app.delete("/api/delete/:id", (req, res) => {
-  let id = req.params.id;
-
-  Apartment.findByIdAndDelete(id, function (err, results) {
-    if (err) {
-      console.log(err);
-      res.status(500).json("Deleting failed");
-    } else if (results == null) {
-      res.status(200).json("Couldn't find an entry with given ID");
-    } else {
-      res.status(200).json("Deleted apartment!");
-    }
-  });
-});
 
 app.listen(PORT);
