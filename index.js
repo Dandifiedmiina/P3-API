@@ -24,7 +24,7 @@ app.use(
 app.use(express.json());
 
 // connect to mongodb
-var url = "mongodb+srv://miinaDB:2020Mongo@cluster0.5lbl3.mongodb.net/sample_airbnb";
+var url = "mongodb+srv://miinaDB:2020Mongo@cluster0.5lbl3.mongodb.net/sample_training";
 
 
 // Yhdistetään tietokantaan
@@ -41,15 +41,15 @@ database.on("open", function () {
 });
 
 // configure schema
-const Airbnb = mongoose.model(
-  "listing",
-  {
-    id: String,
+const Company = mongoose.model(
+  "company",
+   {
     name: String,
-    summary: String,
-    room_type: String,
+    homepage_url: String,
+    founded_year: Number,
+    email_address: String,
   },
-  "listingsAndReviews"
+  "data"
 );
 
 
@@ -62,37 +62,41 @@ app.get("/", (req, res) => {
 
 app.get("/api/getall", (req, res) => {
  
-  Airbnb.find({}, null, { limit: 10 }, function (err, results) {
+  Company.find({}, null, { limit: 10 }, function (err, results) {
     res.status(200).json(results);
   });
 });
 
 // get a single bnb by id
 app.get("/api/:id", (req, res) => {
-  Airbnb.find({_id: req.params.id}, function(err, results){
-    req.json(results);
+  var _id = mongoose.Types.ObjectId(req.params.id);
+
+  Company.findOne({_id:req.params.id}, function(err, results){
+    console.log(err);
+    res.status(200).json(results);
   })
 });
 
 // add a document to the database
 app.post("/api/add", (req, res) => {
 
-  var newlisting = new Airbnb({
+  var newCompany = new Company({
     name: req.body.name,
-    address: req.body.address,
-    summary: req.body.summary,
-    room_type: req.body.room_type,
+    homepage_url: req.body.homepage_url,
+    founded_year: req.body.founded_year,
+    email_address: req.body.email_address,
     
   });
 
-  newlisting.save(function(err, result) {
+  newCompany.save(function(err, result) {
     console.log("Lisätty " + req.body.name);
   })
 });
 
-app.get("/api/:name", (req, res) => {
-    Airbnb.find({name: req.params.name}, function(err, results){
+app.get("/api/name/:name", (req, res) => {
+    Company.find({name: req.params.name}, function(err, results){
       console.log("Haettu " + req.params.name);
+      res.json(results);
     })
   });
 
