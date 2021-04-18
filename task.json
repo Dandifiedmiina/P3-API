@@ -1,0 +1,16 @@
+ {
+        "heading": "Projekti 3: REST API ", 
+        "subheading": "--",
+        "target": [
+                "Create a REST API for your app (for example music / sports / project database)*"
+                  
+        ], 
+        "tasks" : [
+                 " Your API should have *atleast 5 routes*, defined in table below (5 x 1 = 5 p.)",
+                 "Use Mongoose in your API DB queries  (5 x 1 = 5 p.)",
+                 " Test your API with POSTMAN or CURL ",
+                 "Publish your app in Heroku (Linkittyy ulkoiselle sivustolle.), Vercel (Linkittyy ulkoiselle sivustolle.) or similar hosting service. ( 2 p.)",
+                 "Source code should be found in GitHub. Comment your code! Provide README in the repository with URL:s and other info  ( 3 p.)",
+                 "BONUS. If you wish you can build a simple front-end for your API using HTML/CSS/Bootstrap etc. Publish this in Netlify. ( 3 p.)"
+                 ]
+         }

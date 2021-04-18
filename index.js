@@ -49,7 +49,7 @@ const Company = mongoose.model(
     founded_year: Number,
     email_address: String,
   },
-  "data"
+  "companies"
 );
 
 
@@ -89,8 +89,31 @@ app.post("/api/add", (req, res) => {
   });
 
   newCompany.save(function(err, result) {
-    console.log("Lisätty " + req.body.name);
+    if (err) console.log(err);
+    console.log("Lisätty " + result);
   })
+});
+
+app.put("/api/muokkaa/:id", function (req, res) {
+  res.send("Muokataan " + req.params.id + "id:llä tietoja");
+});
+
+app.delete("/api/poista/:id", function (req, res) {
+
+  // Poimitaan id talteen
+  var id = req.params.id;
+
+  Movie.findByIdAndDelete(id, function (err, results) {
+    if (err) {
+      console.log(err);
+      res.json("virhe.", 500);
+    } else if (results == null) {
+      res.json("Poistetavaa ei löydy", 200);
+    } else {
+      console.log(results);
+      res.json("Deleted " + id + " " + results.name, 200);
+    }
+  });
 });
 
 app.get("/api/name/:name", (req, res) => {
