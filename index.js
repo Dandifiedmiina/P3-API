@@ -92,6 +92,7 @@ app.post("/api/add", (req, res) => {
     if (err) console.log(err);
     //log what has been saved
     console.log("Lisätty " + result);
+    //Added respond so it wont loop
     res.send("Added");
   })
 });
