@@ -1,3 +1,5 @@
+const { Decimal128 } = require("bson");
+const { Int32 } = require("bson");
 var express = require("express");
 var app = express();
 var mongoose = require("mongoose");
@@ -22,7 +24,8 @@ app.use(
 app.use(express.json());
 
 // connect to mongodb
-var url = "mongodb+srv://miinaDB:2020Mongo@cluster0.5lbl3.mongodb.net/events";
+var url = "mongodb+srv://miinaDB:2020Mongo@cluster0.5lbl3.mongodb.net/sample_airbnb";
+
 
 // Yhdistetään tietokantaan
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -38,17 +41,15 @@ database.on("open", function () {
 });
 
 // configure schema
-const Event = mongoose.model(
-  "New Event",
+const Airbnb = mongoose.model(
+  "listing",
   {
-    name: String,
-    type: String,
     id: String,
-    test: Boolean,
-    url: String,
-    locale: Number,
+    name: String,
+    summary: String,
+    room_type: String,
   },
-  "events"
+  "listingsAndReviews"
 );
 
 
@@ -57,67 +58,43 @@ app.get("/", (req, res) => {
   res.render("pages/index", list);
 });
 
-// add -page
-app.get("/add", (req, res) => {
-  res.render("pages/add.ejs");
-});
-
 // api routing, Get All -page
 
 app.get("/api/getall", (req, res) => {
  
-  Event.find({}, function (err, results) {
+  Airbnb.find({}, function (err, results) {
     res.status(200).json(results);
   });
 });
 
-// get a single Event by id
+// get a single bnb by id
 app.get("/api/:id", (req, res) => {
-  Event.find({_id: req.params.id}, function(err, results){
+  Airbnb.find({_id: req.params.id}, function(err, results){
     req.json(results);
   })
 });
 
 // add a document to the database
 app.post("/api/add", (req, res) => {
-  // get all data from the api call
-  let type = req.body.type;
-  let address = req.body.address;
-  let area = req.body.area;
-  let room_count = req.body.room_count;
-  let rent = req.body.rent;
 
-  const new_apartment = new Apartment({
-    type: type,
-    address: address,
-    area: area,
-    room_count: room_count,
-    rent: rent,
+  var newlisting = new Airbnb({
+    name: req.body.name,
+    address: req.body.address,
+    summary: req.body.summary,
+    room_type: req.body.room_type,
+    
   });
 
-  new_apartment.save().then(() => res.send("New Apartment Added!"));
+  newlisting.save(function(err, result) {
+    console.log("Lisätty " + req.body.name);
+  })
 });
 
-app.put("/api/update/:id", (req, res) => {
-  let id = req.params.id;
-
-  // get all data from the api call
-  let update = {
-    rent: req.body.rent,
-  };
-  let options = {};
-
-  console.log(update.rent);
-
-  Apartment.findByIdAndUpdate(id, update, options, function (err, results) {
-    if (err) {
-      console.log(err);
-      res.status(500).json("An error occured");
-    } else {
-      res.status(200).json("Apartment Updated!");
-    }
+app.get("/api/:name", (req, res) => {
+    Airbnb.find({name: req.params.name}, function(err, results){
+      console.log("Haettu " + req.params.name);
+    })
   });
-});
 
 app.delete("/api/delete/:id", (req, res) => {
   let id = req.params.id;
