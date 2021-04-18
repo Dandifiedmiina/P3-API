@@ -89,8 +89,7 @@ app.post("/api/add", (req, res) => {
   });
 
   newCompany.save(function(err, result) {
-    if (err) console.log(err);
-    console.log("Lisätty " + result);
+    console.log("Lisätty " + req.body.name);
   })
 });
 
