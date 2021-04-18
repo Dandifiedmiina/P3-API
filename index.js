@@ -67,7 +67,7 @@ app.get("/api/getall", (req, res) => {
   });
 });
 
-// get a single bnb by id
+// get a single company by id
 app.get("/api/:id", (req, res) => {
   var _id = mongoose.Types.ObjectId(req.params.id);
 
@@ -77,7 +77,7 @@ app.get("/api/:id", (req, res) => {
   })
 });
 
-// add a document to the database
+// add a new company to the database
 app.post("/api/add", (req, res) => {
 
   var newCompany = new Company({
@@ -87,22 +87,29 @@ app.post("/api/add", (req, res) => {
     email_address: req.body.email_address,
     
   });
-
+  //save the company info
   newCompany.save(function(err, result) {
-    console.log("Lisätty " + req.body.name);
+    if (err) console.log(err);
+    //log what has been saved
+    console.log("Lisätty " + result);
   })
 });
-
-app.put("/api/muokkaa/:id", function (req, res) {
-  res.send("Muokataan " + req.params.id + "id:llä tietoja");
+//Update company info by ID
+app.put("/api/update/:id", function (req, res) {
+  Company.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, todo) => {
+    if (err) return res.status(500).send(err);
+  })
+  res.send("Muokataan " + req.params.id + " id:llä tietoja");
 });
 
-app.delete("/api/poista/:id", function (req, res) {
+//Delete Company by ID
+app.delete("/api/delete/:id", function (req, res) {
 
   // Poimitaan id talteen
   var id = req.params.id;
-
-  Movie.findByIdAndDelete(id, function (err, results) {
+  
+  //find company or log error 
+  Company.findByIdAndDelete(id, function (err, results) {
     if (err) {
       console.log(err);
       res.json("virhe.", 500);
@@ -115,6 +122,7 @@ app.delete("/api/poista/:id", function (req, res) {
   });
 });
 
+//find company by name for testing
 app.get("/api/name/:name", (req, res) => {
     Company.find({name: req.params.name}, function(err, results){
       console.log("Haettu " + req.params.name);
