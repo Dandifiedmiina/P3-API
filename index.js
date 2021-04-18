@@ -80,11 +80,11 @@ app.get("/api/:id", (req, res) => {
 // add a new company to the database
 app.post("/api/add", (req, res) => {
 
-  var newCompany = new Company({
-    name: req.body.name,
-    homepage_url: req.body.homepage_url,
-    founded_year: req.body.founded_year,
-    email_address: req.body.email_address,
+  const newCompany = new Company({
+    "name": req.body.name,
+    "homepage_url": req.body.homepage_url,
+    "founded_year": req.body.founded_year,
+    "email_address": req.body.email_address,
     
   });
   //save the company info
@@ -92,6 +92,7 @@ app.post("/api/add", (req, res) => {
     if (err) console.log(err);
     //log what has been saved
     console.log("Lisätty " + result);
+    res.send("Added");
   })
 });
 //Update company info by ID
